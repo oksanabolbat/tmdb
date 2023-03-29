@@ -26,22 +26,42 @@ const GenresList: React.FC<Props> = (props) => {
 
     setSelectedGenres(updatedGenres);
     console.log('selected genres', selectedGenres, 'clicked ', clickedGender);
-    props.filterGenres(updatedGenres);
+    //  props.filterGenres(updatedGenres);
   };
 
   return (
-    <select name={props.name} multiple>
-      {genres?.map((genre) => (
-        <option
-          key={genre.id}
-          className="btn btn-light"
-          // onClick={genderBtnHandler}
-          id={String(genre.id)}
-        >
-          {genre.name}
-        </option>
-      ))}
-    </select>
+    // <select name={props.name} multiple className="mw-80">
+    //   {genres?.map((genre) => (
+    //     <option
+    //       key={genre.id}
+    //       className="btn btn-light"
+    //       // onClick={genderBtnHandler}
+    //       id={String(genre.id)}
+    //     >
+    //       {genre.name}
+    //     </option>
+    //   ))}
+    // </select>
+    <>
+      <ul className="px-0 text-center">
+        {genres?.map((genre) => (
+          <li
+            key={genre.id}
+            className="btn btn-light"
+            onClick={genderBtnHandler}
+            id={String(genre.id)}
+          >
+            {genre.name}
+          </li>
+        ))}
+      </ul>
+      <input
+        type={'hidden'}
+        name={props.name}
+        id={props.name}
+        value={selectedGenres.join(',')}
+      />
+    </>
   );
 };
 

@@ -18,22 +18,25 @@ const LanguagesList: React.FC<Props> = (props) => {
   }, []);
 
   return (
-    <select
-      className="form-select"
-      aria-label="Original language"
-      defaultValue={undefined}
-      name={props.name}
-    >
-      {languages?.map((l) => (
-        <option value={l.iso_639_1} key={l.iso_639_1}>
-          {/* {l.name.length > 1 ? l.name : l.english_name} */}
-          {l.english_name}
+    <>
+      <label className="form-label">Original language</label>
+      <select
+        className="form-select mb-3"
+        aria-label="Original language"
+        defaultValue={undefined}
+        name={props.name}
+      >
+        {languages?.map((l) => (
+          <option value={l.iso_639_1} key={l.iso_639_1}>
+            {/* {l.name.length > 1 ? l.name : l.english_name} */}
+            {l.english_name}
+          </option>
+        ))}
+        <option value={''} key={undefined}>
+          {}
         </option>
-      ))}
-      <option value={''} key={undefined}>
-        {}
-      </option>
-    </select>
+      </select>
+    </>
   );
 };
 

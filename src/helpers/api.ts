@@ -51,3 +51,59 @@ export const getMovies = (searchParams: Parameters, apiKeyNeeded?: boolean) => {
     params: searchParams,
   });
 };
+export interface MovieCardProp {
+  id: string;
+  title: string;
+  adult: boolean;
+  genre_ids: number[];
+  original_language: string;
+  original_title: string;
+  overview: string | null;
+  popularity: number;
+  poster_path: string | null;
+  release_date: string;
+  video: boolean;
+  vote_average: number;
+  vote_count: number;
+}
+
+export interface MoviePageProps {
+  id: string;
+  title: string;
+  adult: boolean;
+  backdrop_path: string | null;
+  budget: number;
+  genres: { id: number; name: string }[];
+  homepage: string | null;
+  ibdb_id: string | null;
+  original_language: string;
+  original_title: string;
+  overview: string | null;
+  popularity: number;
+  poster_path: string;
+  production_companies: {
+    name: string;
+    id: number;
+    logo_path: string | null;
+    orig_country: string;
+  }[];
+  production_countries: { iso_3166_1: string; name: string }[];
+  release_date: string;
+  revenue: number;
+  spoken_languages: { iso_639_1: string; name: string }[];
+  status: string;
+  vote_average: number;
+  vote_count: number;
+}
+
+export const getMovieDetails = (movieId: string | undefined) => {
+  return movieId
+    ? axios
+        .get(`${apiLink}movie/${movieId}`, {
+          params: {
+            api_key: apiKey,
+          },
+        })
+        .then((res) => res.data)
+    : {};
+};

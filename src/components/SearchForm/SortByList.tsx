@@ -19,21 +19,24 @@ const SortByList: React.FC<Props> = (props) => {
     console.log(event.target.value);
   };
   return (
-    <select
-      className="form-select"
-      aria-label={props.label}
-      defaultValue={props.selectedValue}
-      onChange={onChangeHandler}
-      name={props.name}
-    >
-      {Object.entries(props.options).map(([k, v]) => {
-        return (
-          <option value={v.id} key={v.id}>
-            {v.name}
-          </option>
-        );
-      })}
-    </select>
+    <>
+      <label className="form-label">{props.label}</label>
+      <select
+        className="form-select mb-3"
+        aria-label={props.label}
+        defaultValue={props.selectedValue}
+        onChange={onChangeHandler}
+        name={props.name}
+      >
+        {Object.entries(props.options).map(([k, v]) => {
+          return (
+            <option value={v.id} key={v.id}>
+              {v.name}
+            </option>
+          );
+        })}
+      </select>
+    </>
   );
 };
 

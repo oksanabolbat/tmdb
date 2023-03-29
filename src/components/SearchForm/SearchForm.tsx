@@ -17,13 +17,16 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { convertSearchParams } from '../../helpers/api';
 import { useEffect } from 'react';
 
-const SearchForm = () => {
+interface Props {
+  className: string;
+}
+
+const SearchForm: React.FC<Props> = (props) => {
   const avgRatingFromDef = '5';
   const avgRatingToDef = '8';
-
+  const classes = `${props.className} `;
   return (
-    <Form method="post" action="/search">
-      <GenresList name="genres" filterGenres={() => {}} />
+    <Form method="post" action="/search" className={classes}>
       <SortByList
         options={sortByValues}
         label="Sort By"
@@ -31,22 +34,30 @@ const SearchForm = () => {
         updateVal={() => {}}
         name="sort_by"
       />
-      <label className="form-check-label" htmlFor="adult">
-        Adults Only
-      </label>
-      <input
-        className="form-check-input"
-        type="checkbox"
-        defaultChecked
-        id="adult"
-        name="adult"
-      />
+
+      <GenresList name="with_genres" filterGenres={() => {}} />
+
+      <br />
+      <div className="form-check my-3">
+        <input
+          className="form-check-input"
+          type="checkbox"
+          id="adult"
+          name="adult"
+        />
+        <label className="form-check-label" htmlFor="adult">
+          Adults Only
+        </label>
+      </div>
 
       <LanguagesList name="language" />
 
-      <label htmlFor="avgRatingFrom">Average Rating From</label>
+      <label htmlFor="avgRatingFrom" className="form-label">
+        Average Rating From
+      </label>
       <input
         id="avgRatingFrom"
+        className="form-control"
         type="number"
         max={10}
         min={0}
@@ -55,9 +66,12 @@ const SearchForm = () => {
         defaultValue={Number(avgRatingFromDef) || ''}
       />
 
-      <label htmlFor="avgRatingTo">Average Rating To</label>
+      <label htmlFor="avgRatingTo" className="form-label">
+        Average Rating To
+      </label>
       <input
         id="avgRatingTo"
+        className="form-control"
         type="number"
         max={10}
         min={0}
@@ -66,9 +80,12 @@ const SearchForm = () => {
         defaultValue={Number(avgRatingToDef) || ''}
       />
 
-      <label htmlFor="releaseYear">Release Year</label>
+      <label htmlFor="releaseYear" className="form-label">
+        Release Year
+      </label>
       <input
         id="releaseYear"
+        className="form-control mb-3"
         type="number"
         max={2045}
         min={1900}
@@ -83,7 +100,13 @@ const SearchForm = () => {
       />
       <DateInputField id="releaseDtLte" label="To" name="release_date.lte" />
 
-      <button type="submit">ok</button>
+      <button
+        type="submit"
+        data-bs-dismiss="offcanvas"
+        className="btn btn-dark w-100 mt-3"
+      >
+        OK
+      </button>
     </Form>
   );
 };

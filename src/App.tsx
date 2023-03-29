@@ -6,7 +6,8 @@ import {
   action as searchAction,
   loader as searchLoader,
 } from './components/SearchForm/SearchForm';
-import MoviesList, { loader as loaderMoviesList } from './pages/MoviesList';
+import MoviesList from './pages/MoviesList';
+import MoviePage, { loader as moviePageLoader } from './pages/MoviePage';
 
 const router = createBrowserRouter([
   {
@@ -20,8 +21,16 @@ const router = createBrowserRouter([
         action: searchAction,
         loader: searchLoader,
         children: [
-          { path: 'movies', element: <MoviesList />, loader: loaderMoviesList },
+          {
+            path: 'movies',
+            element: <MoviesList />,
+          },
         ],
+      },
+      {
+        path: '/movie/:movieId',
+        element: <MoviePage />,
+        loader: moviePageLoader,
       },
     ],
   },

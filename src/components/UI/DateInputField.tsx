@@ -17,9 +17,12 @@ const DateInputField: React.FC<Props> = (props) => {
   };
   return (
     <>
-      <label htmlFor={props.id}>{props.label}</label>
+      <label htmlFor={props.id} className="form-label">
+        {props.label}
+      </label>
       <ReactDatePicker
         dateFormat={'dd.MM.yyyy'}
+        className="form-control"
         id={props.id}
         onChange={onChangeHandler}
         selected={dateValue}
