@@ -3,6 +3,7 @@ import { getLanguages } from '../../helpers/api';
 
 interface Props {
   name: string;
+  defaultValue?: string;
 }
 
 interface LanguageProps {
@@ -13,6 +14,9 @@ interface LanguageProps {
 
 const LanguagesList: React.FC<Props> = (props) => {
   const [languages, setLanguages] = useState<LanguageProps[]>();
+  const [defLang, setDefLang] = useState<string | undefined>(
+    props.defaultValue
+  );
   useEffect(() => {
     getLanguages().then((res) => setLanguages(res.data));
   }, []);
@@ -23,15 +27,16 @@ const LanguagesList: React.FC<Props> = (props) => {
       <select
         className="form-select mb-3"
         aria-label="Original language"
-        defaultValue={undefined}
+        value={defLang}
         name={props.name}
+        onChange={(e) => setDefLang(e.target.value)}
       >
         {languages?.map((l) => (
           <option value={l.iso_639_1} key={l.iso_639_1}>
-            {/* {l.name.length > 1 ? l.name : l.english_name} */}
             {l.english_name}
           </option>
         ))}
+
         <option value={''} key={undefined}>
           {}
         </option>
