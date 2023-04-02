@@ -1,11 +1,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-
 import Search from './pages/Search';
 import RootLayout from './pages/Root';
-import {
-  action as searchAction,
-  loader as searchLoader,
-} from './components/SearchForm/SearchForm';
+import { action as searchAction } from './components/SearchForm/SearchForm';
 import MoviesList from './pages/MoviesList';
 import MoviePage, { loader as moviePageLoader } from './pages/MoviePage';
 
@@ -19,7 +15,7 @@ const router = createBrowserRouter([
         path: 'search',
         element: <Search />,
         action: searchAction,
-        loader: searchLoader,
+
         children: [
           {
             path: 'movies',
