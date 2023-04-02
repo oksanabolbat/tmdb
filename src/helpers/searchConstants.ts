@@ -1,21 +1,6 @@
 import { URLSearchParams } from 'url';
 import { apiKey } from './api';
 
-const months = [
-  '01',
-  '02',
-  '03',
-  '04',
-  '05',
-  '06',
-  '07',
-  '08',
-  '09',
-  '10',
-  '11',
-  '12',
-];
-
 export interface SearchParams {
   apiKey?: string;
   language?: string;
@@ -60,15 +45,6 @@ export const sortByValues = {
 
 export type SortByValues = typeof sortByValues;
 
-export const formatDateToSearchParam = (d: string) => {
-  //return d ? String(d.getDate()) + d.getMonth() + d.getFullYear() : '';
-  return d.replaceAll('.', '');
-  // ? (d.getDate() > 9 ? String(d.getDate()) : '0' + String(d.getDate())) +
-  //     months[d.getMonth()] +
-  //     d.getFullYear()
-  // : '';
-};
-
 export const convertSearchString = (searchParams: URLSearchParams) => {
   const apiParams: { [key: string]: string | number | boolean | null } = {};
   const keys = searchParams.keys();
@@ -82,3 +58,8 @@ export const convertSearchString = (searchParams: URLSearchParams) => {
 
   return apiParams;
 };
+
+export interface SearchSummaryProps {
+  pages: number;
+  total: number;
+}

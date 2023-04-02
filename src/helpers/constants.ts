@@ -37,7 +37,7 @@ interface ApiData {
 }
 
 export interface Parameters {
-  [key: string]: string | number | boolean | null;
+  [key: string]: string | null;
 }
 
 export const convertMovies = (obj: ApiData) => {
@@ -59,4 +59,17 @@ export const convertMovies = (obj: ApiData) => {
     })
   );
   return moviesArr;
+};
+
+export const parseSearchParams = (searchParams: URLSearchParams) => {
+  const apiParams: Parameters = {};
+  const keys = searchParams.keys();
+
+  for (const k of keys) {
+    let val = searchParams.get(k);
+    if (val && val !== null) {
+      apiParams[k] = val;
+    }
+  }
+  return apiParams;
 };

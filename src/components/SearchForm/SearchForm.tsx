@@ -1,41 +1,47 @@
 import GenresList from './GenresList';
 import SortByList from './SortByList';
-import {
-  sortByValues,
-  formatDateToSearchParam,
-} from '../../helpers/searchConstants';
+import { sortByValues } from '../../helpers/searchConstants';
 import DateInputField from '../UI/DateInputField';
 import LanguagesList from './LanguageList';
-import {
-  Form,
-  redirect,
-  useLoaderData,
-  useSearchParams,
-} from 'react-router-dom';
+import { Form, redirect, useSearchParams } from 'react-router-dom';
 
 import 'react-datepicker/dist/react-datepicker.css';
 import { convertSearchParams } from '../../helpers/api';
-import { useEffect } from 'react';
+import { parseSearchParams } from '../../helpers/constants';
+import { useState } from 'react';
 
 interface Props {
   className: string;
 }
 
 const SearchForm: React.FC<Props> = (props) => {
-  const avgRatingFromDef = '5';
-  const avgRatingToDef = '8';
+  const [searchParams] = useSearchParams();
+  const apiParams = parseSearchParams(searchParams);
+  const [includeAdultDef, setIncludeAdultDef] = useState<string | undefined>(
+    apiParams?.include_adult === 'true' ? 'true' : undefined
+  );
+
+  console.log('yo ', apiParams);
+  const releaseDtGteDef = apiParams['release_date.gte'];
+  const releaseDtLteDef = apiParams['release_date.lte'];
+
+  console.log(includeAdultDef);
   const classes = `${props.className} `;
   return (
     <Form method="post" action="/search" className={classes}>
       <SortByList
         options={sortByValues}
         label="Sort By"
-        selectedValue={sortByValues.popularityDesc.id}
+        selectedValue={apiParams.sort_by || sortByValues.popularityDesc.id}
         updateVal={() => {}}
         name="sort_by"
       />
 
-      <GenresList name="with_genres" filterGenres={() => {}} />
+      <GenresList
+        name="with_genres"
+        filterGenres={() => {}}
+        withGenresDef={apiParams.with_genres || undefined}
+      />
 
       <br />
       <div className="form-check my-3">
@@ -43,14 +49,21 @@ const SearchForm: React.FC<Props> = (props) => {
           className="form-check-input"
           type="checkbox"
           id="adult"
-          name="adult"
+          name="include_adult"
+          checked={includeAdultDef === 'true'}
+          onChange={(e) =>
+            setIncludeAdultDef(e.target.checked ? 'true' : 'false')
+          }
         />
         <label className="form-check-label" htmlFor="adult">
           Adults Only
         </label>
       </div>
 
-      <LanguagesList name="language" />
+      <LanguagesList
+        defaultValue={apiParams['with_original_language'] || undefined}
+        name="with_original_language"
+      />
 
       <label htmlFor="avgRatingFrom" className="form-label">
         Average Rating From
@@ -63,7 +76,7 @@ const SearchForm: React.FC<Props> = (props) => {
         min={0}
         step={0.01}
         name="vote_average.gte"
-        defaultValue={Number(avgRatingFromDef) || ''}
+        defaultValue={Number(apiParams['vote_average.gte']) || undefined}
       />
 
       <label htmlFor="avgRatingTo" className="form-label">
@@ -77,7 +90,7 @@ const SearchForm: React.FC<Props> = (props) => {
         min={0}
         step={0.01}
         name="vote_average.lte"
-        defaultValue={Number(avgRatingToDef) || ''}
+        defaultValue={Number(apiParams['vote_average.lte']) || undefined}
       />
 
       <label htmlFor="releaseYear" className="form-label">
@@ -91,14 +104,39 @@ const SearchForm: React.FC<Props> = (props) => {
         min={1900}
         step={1}
         name="year"
+        defaultValue={Number(apiParams.year) || undefined}
       />
 
       <DateInputField
         id="releaseDtGte"
         label="Release Date From"
         name="release_date.gte"
+        defaultValue={
+          releaseDtGteDef
+            ? new Date(
+                `${releaseDtGteDef.substring(2, 4)}-${releaseDtGteDef.substring(
+                  0,
+                  2
+                )}-${releaseDtGteDef.substring(4)}`
+              )
+            : undefined
+        }
       />
-      <DateInputField id="releaseDtLte" label="To" name="release_date.lte" />
+      <DateInputField
+        id="releaseDtLte"
+        label="To"
+        name="release_date.lte"
+        defaultValue={
+          releaseDtLteDef
+            ? new Date(
+                `${releaseDtLteDef.substring(2, 4)}-${releaseDtLteDef.substring(
+                  0,
+                  2
+                )}-${releaseDtLteDef.substring(4)}`
+              )
+            : undefined
+        }
+      />
 
       <button
         type="submit"
@@ -113,52 +151,12 @@ const SearchForm: React.FC<Props> = (props) => {
 
 export default SearchForm;
 
-export async function loader({
-  request,
-  params,
-}: {
-  request: any;
-  params: any;
-}) {
-  let avgRatingFromDef: string | null = '';
-  let avgRatingToDef: string | null = '';
-  console.log(new URL(request.url).searchParams.get('page'));
-  if (request.url) {
-    // avgRatingFromDef = request.url.get('vote_average.gte');
-    // avgRatingToDef = request.url.get('vote_average.lte');
-    console.log(request.url);
-  }
-
-  return { avgRatingFromDef, avgRatingToDef };
-}
-
-export async function action({
-  request,
-  params,
-}: {
-  request: any;
-  params: any;
-}) {
+export async function action({ request }: { request: any; params: any }) {
   const data = await request.formData();
   console.log(data, request);
   let paramsObj = Object.fromEntries(data);
-
-  paramsObj.adult = 'true' ? paramsObj.adult === 'on' : 'false';
-  //
-
-  if (paramsObj['release_date.gte']) {
-    paramsObj['release_date.gte'] = formatDateToSearchParam(
-      paramsObj['release_date.gte']
-    );
-  }
-
-  if (paramsObj['release_date.lte']) {
-    paramsObj['release_date.lte'] = formatDateToSearchParam(
-      paramsObj['release_date.lte']
-    );
-  }
-
   console.log(paramsObj);
+
   paramsObj = convertSearchParams(paramsObj);
 
   return redirect(

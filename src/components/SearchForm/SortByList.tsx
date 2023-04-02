@@ -16,7 +16,6 @@ interface Props {
 const SortByList: React.FC<Props> = (props) => {
   const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
     props.updateVal('sortBy', event.target.value);
-    console.log(event.target.value);
   };
   return (
     <>

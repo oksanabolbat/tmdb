@@ -34,12 +34,14 @@ export const convertSearchParams = (
 ) => {
   let apiParams: Parameters = {};
   if (needApi) apiParams.api_key = apiKey;
+
   Object.keys(enteredParams).forEach((key) => {
     if (enteredParams[key]) {
       apiParams[key] = enteredParams[key];
+      console.log('API ', apiParams);
     }
   });
-
+  if (apiParams.include_adult === 'on') apiParams.include_adult = 'true';
   return apiParams;
 };
 
@@ -54,17 +56,17 @@ export const getMovies = (searchParams: Parameters, apiKeyNeeded?: boolean) => {
 export interface MovieCardProp {
   id: string;
   title: string;
-  adult: boolean;
-  genre_ids: number[];
-  original_language: string;
-  original_title: string;
-  overview: string | null;
-  popularity: number;
-  poster_path: string | null;
-  release_date: string;
-  video: boolean;
-  vote_average: number;
-  vote_count: number;
+  adult?: boolean;
+  genre_ids?: number[];
+  original_language?: string;
+  original_title?: string;
+  overview?: string | null;
+  popularity?: number;
+  poster_path?: string | null;
+  release_date?: string;
+  video?: boolean;
+  vote_average?: number;
+  vote_count?: number;
 }
 
 export interface MoviePageProps {

@@ -1,21 +1,21 @@
 import SearchForm from '../components/SearchForm/SearchForm';
+
 import { Outlet } from 'react-router-dom';
 
 const Search = () => {
   return (
     <div className="container mw-100">
       <h2>Find some movies for yourself 😻</h2>
-      <div className="row">
+      <div className="row p-4">
         <div className="col-4">
-          {/* <SearchForm className="my-3" /> */}
           <button
-            className="btn btn-primary"
+            className="btn btn-dark w-25 text-uppercase position-absolute "
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasLeft"
             aria-controls="offcanvasLeft"
           >
-            SEARCH
+            search
           </button>
 
           <div
@@ -40,9 +40,9 @@ const Search = () => {
             </div>
           </div>
         </div>
-        <div>
-          <Outlet />
-        </div>
+      </div>
+      <div>
+        <Outlet />
       </div>
     </div>
   );

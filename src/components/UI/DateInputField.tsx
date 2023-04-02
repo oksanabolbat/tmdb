@@ -6,13 +6,14 @@ interface Props {
   id: string;
   label: string;
   name: string;
+  defaultValue?: Date;
 }
 
 const DateInputField: React.FC<Props> = (props) => {
-  const [dateValue, setDateValue] = useState<Date | null>();
+  const [dateValue, setDateValue] = useState<Date | null>(
+    props.defaultValue || null
+  );
   const onChangeHandler = (d: Date) => {
-    console.log(d);
-
     setDateValue(d);
   };
   return (
@@ -21,7 +22,7 @@ const DateInputField: React.FC<Props> = (props) => {
         {props.label}
       </label>
       <ReactDatePicker
-        dateFormat={'dd.MM.yyyy'}
+        dateFormat={'yyyy-MM-dd'}
         className="form-control"
         id={props.id}
         onChange={onChangeHandler}

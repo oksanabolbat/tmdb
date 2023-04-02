@@ -1,15 +1,17 @@
 import { getGenres, Genres } from '../../helpers/api';
 import React, { useState, useEffect } from 'react';
-import Multiselect from 'multiselect-react-dropdown';
 
 interface Props {
   filterGenres: (a: String[]) => void;
   name: string;
+  withGenresDef?: string;
 }
 
 const GenresList: React.FC<Props> = (props) => {
   const [genres, setGenres] = useState<Genres[]>();
-  const [selectedGenres, setSelectedGenres] = useState<String[]>([]);
+  const [selectedGenres, setSelectedGenres] = useState<String[]>(
+    props.withGenresDef?.split(',') || []
+  );
 
   useEffect(() => {
     getGenres().then((res) => setGenres(res));
@@ -25,29 +27,19 @@ const GenresList: React.FC<Props> = (props) => {
       : [...selectedGenres, clickedGender];
 
     setSelectedGenres(updatedGenres);
-    console.log('selected genres', selectedGenres, 'clicked ', clickedGender);
-    //  props.filterGenres(updatedGenres);
   };
 
   return (
-    // <select name={props.name} multiple className="mw-80">
-    //   {genres?.map((genre) => (
-    //     <option
-    //       key={genre.id}
-    //       className="btn btn-light"
-    //       // onClick={genderBtnHandler}
-    //       id={String(genre.id)}
-    //     >
-    //       {genre.name}
-    //     </option>
-    //   ))}
-    // </select>
     <>
       <ul className="px-0 text-center">
         {genres?.map((genre) => (
           <li
             key={genre.id}
-            className="btn btn-light"
+            className={
+              selectedGenres.includes(String(genre.id))
+                ? 'btn btn-primary '
+                : 'btn btn-light'
+            }
             onClick={genderBtnHandler}
             id={String(genre.id)}
           >
@@ -60,6 +52,7 @@ const GenresList: React.FC<Props> = (props) => {
         name={props.name}
         id={props.name}
         value={selectedGenres.join(',')}
+        onChange={() => {}}
       />
     </>
   );
