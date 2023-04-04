@@ -2,9 +2,10 @@ import { getGenres, Genres } from '../../helpers/api';
 import React, { useState, useEffect } from 'react';
 
 interface Props {
-  filterGenres: (a: String[]) => void;
   name: string;
-  withGenresDef?: string;
+  withGenresDef: string;
+  needReset: boolean;
+  updateReset: () => void;
 }
 
 const GenresList: React.FC<Props> = (props) => {
@@ -16,6 +17,19 @@ const GenresList: React.FC<Props> = (props) => {
   useEffect(() => {
     getGenres().then((res) => setGenres(res));
   }, []);
+
+  useEffect(() => {
+    if (props.needReset) {
+      console.log('clearing genres');
+      const genresOptions = document.getElementsByClassName('genre');
+      for (let i = 0; i < genresOptions.length; i++) {
+        if (genresOptions[i].matches('btn-primary'))
+          genresOptions[i].classList.replace('btn-primary', 'btn-light');
+      }
+      setSelectedGenres([]);
+      props.updateReset();
+    }
+  }, [props]);
 
   const genderBtnHandler = (event: React.MouseEvent) => {
     event.currentTarget.classList.toggle('btn-light');
@@ -37,8 +51,8 @@ const GenresList: React.FC<Props> = (props) => {
             key={genre.id}
             className={
               selectedGenres.includes(String(genre.id))
-                ? 'btn btn-primary '
-                : 'btn btn-light'
+                ? 'btn genre btn-primary '
+                : 'btn genre btn-light'
             }
             onClick={genderBtnHandler}
             id={String(genre.id)}
@@ -48,7 +62,7 @@ const GenresList: React.FC<Props> = (props) => {
         ))}
       </ul>
       <input
-        type={'hidden'}
+        //  type={'hidden'}
         name={props.name}
         id={props.name}
         value={selectedGenres.join(',')}

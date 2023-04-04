@@ -6,16 +6,21 @@ interface Props {
   id: string;
   label: string;
   name: string;
-  defaultValue?: Date;
+  value: Date | undefined;
+  updateVal: (paramValue: Date | undefined) => void;
 }
 
 const DateInputField: React.FC<Props> = (props) => {
-  const [dateValue, setDateValue] = useState<Date | null>(
-    props.defaultValue || null
-  );
+  // const [dateValue, setDateValue] = useState<Date | null>(
+  //   props.value || null
+  // );
   const onChangeHandler = (d: Date) => {
-    setDateValue(d);
+    //setDateValue(d);
+
+    props.updateVal(d || undefined);
   };
+
+  console.log(props.value);
   return (
     <>
       <label htmlFor={props.id} className="form-label">
@@ -26,7 +31,7 @@ const DateInputField: React.FC<Props> = (props) => {
         className="form-control"
         id={props.id}
         onChange={onChangeHandler}
-        selected={dateValue}
+        selected={props.value || undefined}
         name={props.name}
       />
     </>

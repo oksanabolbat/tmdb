@@ -64,7 +64,7 @@ const MoviesList = () => {
       <PaginationControl
         page={Number(searchParams.get('page')) || 1}
         between={4}
-        total={250}
+        total={searchSummary.total}
         limit={20}
         changePage={(page) => {
           searchParams.set('page', String(page));

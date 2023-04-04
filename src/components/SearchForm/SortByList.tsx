@@ -7,15 +7,12 @@ interface Props {
   name: string;
 
   selectedValue?: string;
-  updateVal: (
-    paramName: keyof SearchParams,
-    paramValue: string | number
-  ) => void;
+  updateVal: (paramValue: string) => void;
 }
 
 const SortByList: React.FC<Props> = (props) => {
   const onChangeHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    props.updateVal('sortBy', event.target.value);
+    props.updateVal(event.target.value);
   };
   return (
     <>
@@ -23,7 +20,7 @@ const SortByList: React.FC<Props> = (props) => {
       <select
         className="form-select mb-3"
         aria-label={props.label}
-        defaultValue={props.selectedValue}
+        value={props.selectedValue}
         onChange={onChangeHandler}
         name={props.name}
       >
