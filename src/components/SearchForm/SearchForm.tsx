@@ -61,9 +61,6 @@ const SearchForm: React.FC<Props> = (props) => {
   const classes = `${props.className} `;
   return (
     <>
-      <button className="btn" onClick={resetForm}>
-        reset
-      </button>
       <Form method="post" action="/search" className={classes}>
         <SortByList
           options={sortByValues}
@@ -107,36 +104,40 @@ const SearchForm: React.FC<Props> = (props) => {
             setLanguageDef(val);
           }}
         />
-
-        <label htmlFor="avgRatingFrom" className="form-label">
-          Average Rating From
-        </label>
-        <input
-          id="avgRatingFrom"
-          className="form-control"
-          type="number"
-          max={10}
-          min={0}
-          step={0.01}
-          name="vote_average.gte"
-          value={avgRatingFromDef}
-          onChange={(e) => setAvgRatingFromDef(Number(e.target.value))}
-        />
-
-        <label htmlFor="avgRatingTo" className="form-label">
-          Average Rating To
-        </label>
-        <input
-          id="avgRatingTo"
-          className="form-control"
-          type="number"
-          max={10}
-          min={0}
-          step={0.01}
-          name="vote_average.lte"
-          value={avgRatingToDef}
-          onChange={(e) => setAvgRatingToDef(Number(e.target.value))}
-        />
+        <div className="row">
+          <div className="col-6">
+            <label htmlFor="avgRatingFrom" className="form-label">
+              Average Rating From
+            </label>
+            <input
+              id="avgRatingFrom"
+              className="form-control"
+              type="number"
+              max={10}
+              min={0}
+              step={0.01}
+              name="vote_average.gte"
+              value={avgRatingFromDef}
+              onChange={(e) => setAvgRatingFromDef(Number(e.target.value))}
+            />
+          </div>
+          <div className="col-6">
+            <label htmlFor="avgRatingTo" className="form-label">
+              To
+            </label>
+            <input
+              id="avgRatingTo"
+              className="form-control"
+              type="number"
+              max={10}
+              min={0}
+              step={0.01}
+              name="vote_average.lte"
+              value={avgRatingToDef}
+              onChange={(e) => setAvgRatingToDef(Number(e.target.value))}
+            />
+          </div>
+        </div>
 
         <label htmlFor="releaseYear" className="form-label">
           Release Year
@@ -152,29 +153,33 @@ const SearchForm: React.FC<Props> = (props) => {
           value={yearDef}
           onChange={(e) => setYearDef(Number(e.target.value))}
         />
-
-        <DateInputField
-          id="releaseDtGte"
-          label="Release Date From"
-          name="primary_release_date.gte"
-          value={dateFrom || undefined}
-          updateVal={(d) => setDateFrom(d)}
-        />
-        <DateInputField
-          id="releaseDtLte"
-          label="To"
-          name="primary_release_date.lte"
-          value={dateTo || undefined}
-          updateVal={(d) => setDateTo(d)}
-          //updateVal={(d) => console.log(d)}
-        />
+        <div className="row mb-3">
+          <DateInputField
+            id="releaseDtGte"
+            label="Release Date From"
+            name="primary_release_date.gte"
+            value={dateFrom || undefined}
+            updateVal={(d) => setDateFrom(d)}
+          />
+          <DateInputField
+            id="releaseDtLte"
+            label="To"
+            name="primary_release_date.lte"
+            value={dateTo || undefined}
+            updateVal={(d) => setDateTo(d)}
+            //updateVal={(d) => console.log(d)}
+          />
+        </div>
 
         <button
           type="submit"
           data-bs-dismiss="offcanvas"
-          className="btn btn-dark w-100 mt-3"
+          className="btn btn-dark w-100 mb-1"
         >
           OK
+        </button>
+        <button className="btn btn-light w-100" onClick={resetForm}>
+          reset
         </button>
       </Form>
     </>
@@ -185,10 +190,7 @@ export default SearchForm;
 
 export async function action({ request }: { request: any; params: any }) {
   const data = await request.formData();
-  console.log(data, request);
   let paramsObj = Object.fromEntries(data);
-  console.log(paramsObj);
-
   paramsObj = convertSearchParams(paramsObj);
 
   return redirect(

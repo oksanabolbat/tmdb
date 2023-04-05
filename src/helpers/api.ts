@@ -38,7 +38,6 @@ export const convertSearchParams = (
   Object.keys(enteredParams).forEach((key) => {
     if (enteredParams[key]) {
       apiParams[key] = enteredParams[key];
-      console.log('API ', apiParams);
     }
   });
   if (apiParams.include_adult === 'on') apiParams.include_adult = 'true';

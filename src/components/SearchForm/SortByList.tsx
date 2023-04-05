@@ -1,5 +1,5 @@
 import React from 'react';
-import { SortByValues, SearchParams } from '../../helpers/searchConstants';
+import { SortByValues } from '../../helpers/searchConstants';
 
 interface Props {
   options: SortByValues;

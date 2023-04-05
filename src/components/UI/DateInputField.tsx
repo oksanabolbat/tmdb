@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import ReactDatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -11,18 +11,12 @@ interface Props {
 }
 
 const DateInputField: React.FC<Props> = (props) => {
-  // const [dateValue, setDateValue] = useState<Date | null>(
-  //   props.value || null
-  // );
   const onChangeHandler = (d: Date) => {
-    //setDateValue(d);
-
     props.updateVal(d || undefined);
   };
 
-  console.log(props.value);
   return (
-    <>
+    <div className="col-6">
       <label htmlFor={props.id} className="form-label">
         {props.label}
       </label>
@@ -34,7 +28,7 @@ const DateInputField: React.FC<Props> = (props) => {
         selected={props.value || undefined}
         name={props.name}
       />
-    </>
+    </div>
   );
 };
 

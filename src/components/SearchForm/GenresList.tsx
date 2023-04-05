@@ -20,11 +20,10 @@ const GenresList: React.FC<Props> = (props) => {
 
   useEffect(() => {
     if (props.needReset) {
-      console.log('clearing genres');
       const genresOptions = document.getElementsByClassName('genre');
       for (let i = 0; i < genresOptions.length; i++) {
-        if (genresOptions[i].matches('btn-primary'))
-          genresOptions[i].classList.replace('btn-primary', 'btn-light');
+        if (genresOptions[i].matches('btn-secondary'))
+          genresOptions[i].classList.replace('btn-secondary', 'btn-light');
       }
       setSelectedGenres([]);
       props.updateReset();
@@ -33,7 +32,7 @@ const GenresList: React.FC<Props> = (props) => {
 
   const genderBtnHandler = (event: React.MouseEvent) => {
     event.currentTarget.classList.toggle('btn-light');
-    event.currentTarget.classList.toggle('btn-primary');
+    event.currentTarget.classList.toggle('btn-secondary');
     const clickedGender = event.currentTarget.id;
 
     const updatedGenres = selectedGenres.includes(clickedGender)
@@ -51,7 +50,7 @@ const GenresList: React.FC<Props> = (props) => {
             key={genre.id}
             className={
               selectedGenres.includes(String(genre.id))
-                ? 'btn genre btn-primary '
+                ? 'btn genre btn-secondary '
                 : 'btn genre btn-light'
             }
             onClick={genderBtnHandler}

@@ -22,9 +22,9 @@ const MoviesList = () => {
   useEffect(() => {
     const apiParams = parseSearchParams(searchParams);
 
-    console.log(apiParams);
+    // console.log(apiParams);
     getMovies(apiParams, true).then((res) => {
-      console.log(res.data);
+      //  console.log(res.data);
       setMovies(res.data.results);
       setSearchSummary({
         pages: res.data.total_pages,
