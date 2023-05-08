@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { MovieCardProp } from '../helpers/api';
 interface Props {
   movieData: MovieCardProp;
+  isList?: boolean;
 }
 
 const MovieCard: React.FC<Props> = (props) => {
@@ -9,8 +10,11 @@ const MovieCard: React.FC<Props> = (props) => {
   const movie = props.movieData;
 
   return (
-    <div className="card">
-      <Link to={`/movie/${movieId}`}>
+    <div className="min-vw-25 m-1 text-decoration-none link-dark text-center">
+      <Link
+        to={`/movie/${movieId}`}
+        className=" m-1 text-decoration-none link-dark text-center"
+      >
         <img
           src={
             movie.poster_path?.length
@@ -22,6 +26,9 @@ const MovieCard: React.FC<Props> = (props) => {
           data-toggle="tooltip"
           data-placement="bottom"
           title={movie.overview || undefined}
+          style={props.isList ? { width: 138, height: 175 } : {}}
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
         />
       </Link>
       <div className="card-body">

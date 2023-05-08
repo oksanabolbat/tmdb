@@ -97,7 +97,6 @@ const SearchForm: React.FC<Props> = (props) => {
         </div>
 
         <LanguagesList
-          // defaultValue={apiParams['with_original_language'] || undefined}
           name="with_original_language"
           value={languageDef}
           updateVal={(val) => {
@@ -167,7 +166,6 @@ const SearchForm: React.FC<Props> = (props) => {
             name="primary_release_date.lte"
             value={dateTo || undefined}
             updateVal={(d) => setDateTo(d)}
-            //updateVal={(d) => console.log(d)}
           />
         </div>
 

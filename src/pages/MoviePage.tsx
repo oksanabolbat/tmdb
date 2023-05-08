@@ -1,20 +1,75 @@
-import { LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
-import { getMovieDetails, MoviePageProps } from '../helpers/api';
+import { json, LoaderFunctionArgs, useLoaderData } from 'react-router-dom';
+import {
+  getMovieDetails,
+  MoviePageProps,
+  CreditsProps,
+  imgSrc,
+} from '../helpers/api';
+import Cast from '../components/Cast';
+import BtnBack from '../components/UI/BtnBack';
+import CardsHolder from '../components/UI/CardsHolder';
+import Crew from '../components/Crew';
+import MovieInfo from '../components/MovieInfo';
 
 const MoviePage = () => {
-  const movieData = useLoaderData() as MoviePageProps;
+  const movieData = useLoaderData() as [MoviePageProps, CreditsProps];
 
+  const [movieDetails, credits] = movieData;
+
+  const style = {
+    backgroundImage:
+      'url(' +
+      imgSrc +
+      'w1920_and_h800_multi_faces/' +
+      movieDetails.backdrop_path +
+      ')',
+    backgroundPosition: 'center',
+    backgroundSize: 'cover',
+    backgroundRepeat: 'no-repeat',
+    paddingBottom: '0',
+  };
+  const shadowTextStyle = {
+    textShadow: '1px 1px 1px #000, 0 0 1em #000, 0 0 0.2em #000',
+    color: '#fff',
+  };
   return (
-    <div className="card">
-      <img
-        src={`${movieData.poster_path}`}
-        alt={`${movieData.title}`}
-        className="card-img-top"
-      />
+    <div style={style}>
+      <div style={{ backdropFilter: 'blur(10px)' }} className="w-100">
+        <div className="container pb-5">
+          <div className="row p-2 position-relative">
+            <div className="col-3">
+              <img
+                src={`${imgSrc}w500/${movieDetails.poster_path}`}
+                alt={`${movieDetails.title}`}
+                className="img-fluid"
+              />
+            </div>
+            <div className="col" style={shadowTextStyle}>
+              <h1 className="bg-white bg-opacity-10 p-2">
+                {movieDetails.title}
+              </h1>
+              <p>{movieDetails.tagline && <i>{movieDetails.tagline}</i>}</p>
 
-      <div className="card-body">
-        <h5 className="card-title">{movieData.title}</h5>
-        <p className="card-text">{movieData.overview}</p>
+              <MovieInfo movieDetails={movieDetails} />
+            </div>
+          </div>
+          <div className="w-75 mx-auto">
+            <p style={shadowTextStyle}>{movieDetails.overview}</p>
+          </div>
+          <h3 className="ms-5 mt-4" style={shadowTextStyle}>
+            Cast
+          </h3>
+          <CardsHolder>
+            <Cast cast={credits.cast} />
+          </CardsHolder>
+          <h3 className="ms-5 mt-4" style={shadowTextStyle}>
+            Crew
+          </h3>
+          <CardsHolder>
+            <Crew crew={credits.crew} />
+          </CardsHolder>
+          <BtnBack />
+        </div>
       </div>
     </div>
   );
@@ -22,6 +77,17 @@ const MoviePage = () => {
 export default MoviePage;
 
 export const loader = ({ params }: LoaderFunctionArgs) => {
-  console.log(params.movieId);
-  return getMovieDetails(params.movieId);
+  const movieData = getMovieDetails(params.movieId)
+    .then((movieData) => movieData)
+    .catch((err) => {
+      throw json(
+        { message: 'Something is incorrect', title: 'Error occured' },
+
+        {
+          status: 505,
+        }
+      );
+    });
+
+  return movieData;
 };

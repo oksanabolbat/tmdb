@@ -4,12 +4,12 @@ import { Outlet } from 'react-router-dom';
 
 const Search = () => {
   return (
-    <div className="container mw-100">
-      <h2>Find some movies for yourself 😻</h2>
+    <div className="container pb-5">
+      <h2 className="my-3 text-center">Find some movies for yourself 😻</h2>
       <div className="row p-4">
-        <div className="col-4">
+        <div className="col">
           <button
-            className="btn btn-dark w-25 text-uppercase position-absolute "
+            className="btn btn-dark w-25 text-uppercase ms-5"
             type="button"
             data-bs-toggle="offcanvas"
             data-bs-target="#offcanvasLeft"

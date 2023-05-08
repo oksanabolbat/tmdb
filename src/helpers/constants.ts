@@ -60,6 +60,10 @@ export const convertMovies = (obj: ApiData) => {
   );
   return moviesArr;
 };
+export const defaultNoPosterMovieSrc =
+  'https://i.pinimg.com/564x/bf/d6/cb/bfd6cb06db7f1597d663cf87d314e241.jpg';
+export const defaultNoProfileImgSrc =
+  'https://i.pinimg.com/474x/ee/cf/13/eecf132f812bdf4ca87b339563f1ffa5.jpg';
 
 export const parseSearchParams = (searchParams: URLSearchParams) => {
   const apiParams: Parameters = {};

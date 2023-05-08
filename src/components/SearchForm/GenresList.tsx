@@ -61,7 +61,7 @@ const GenresList: React.FC<Props> = (props) => {
         ))}
       </ul>
       <input
-        //  type={'hidden'}
+        type={'hidden'}
         name={props.name}
         id={props.name}
         value={selectedGenres.join(',')}
