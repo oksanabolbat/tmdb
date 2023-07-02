@@ -30,18 +30,32 @@ const PersonPage = () => {
     <></>
   );
 
-  const alsoKnownAs =
+  const alsoKnownAsJsx: JSX.Element =
     personData.also_known_as && personData.also_known_as.length > 0 ? (
       <>
         <h5>Also Known As</h5>
         {personData.also_known_as.map((name) => (
-          <span key={name}>{`${name}\xa0\xa0\xa0\xa0|\xa0\xa0\xa0\xa0`}</span>
+          <span key={name}>{`${name}\xa0\xa0\xa0\xa0\xa0\xa0\xa0\xa0`}</span>
         ))}
       </>
     ) : (
       <></>
     );
 
+  const knownAsJSX: JSX.Element =
+    personData.known_as && personData.known_as.length > 0 ? (
+      <>
+        <h3 className="my-4">Known for</h3>
+
+        <CardsHolder>
+          {personData.known_as?.map((el) => (
+            <PersonMovieCard movie={el} key={el.id} />
+          ))}
+        </CardsHolder>
+      </>
+    ) : (
+      <></>
+    );
   return (
     <div className="container pb-5">
       <div className="row">
@@ -88,22 +102,10 @@ const PersonPage = () => {
           <h1>{personData.name}</h1>
           {biography}
 
-          {alsoKnownAs}
+          {alsoKnownAsJsx}
           {homepage}
 
-          {personData.known_as ? (
-            <>
-              <h3 className="my-4">Known for</h3>
-
-              <CardsHolder>
-                {personData.known_as?.map((el) => (
-                  <PersonMovieCard movie={el} key={el.id} />
-                ))}
-              </CardsHolder>
-            </>
-          ) : (
-            ''
-          )}
+          {knownAsJSX}
         </div>
       </div>
 

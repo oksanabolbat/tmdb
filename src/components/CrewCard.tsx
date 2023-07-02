@@ -22,6 +22,7 @@ const CrewCard: React.FC<Props> = (props) => {
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         title={about}
+        alt={about}
         style={{ width: 138, height: 175 }}
       />
 

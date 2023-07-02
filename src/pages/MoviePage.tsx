@@ -32,6 +32,35 @@ const MoviePage = () => {
     textShadow: '1px 1px 1px #000, 0 0 1em #000, 0 0 0.2em #000',
     color: '#fff',
   };
+
+  const castJsx: JSX.Element =
+    credits.cast.length > 0 ? (
+      <>
+        <h3 className="ms-5 mt-4" style={shadowTextStyle}>
+          Cast
+        </h3>
+
+        <CardsHolder>
+          <Cast cast={credits.cast} />
+        </CardsHolder>
+      </>
+    ) : (
+      <br />
+    );
+  const crewJsx: JSX.Element =
+    credits.crew.length > 0 ? (
+      <>
+        <h3 className="ms-5 mt-4" style={shadowTextStyle}>
+          Crew
+        </h3>
+        <CardsHolder>
+          <Crew crew={credits.crew} />
+        </CardsHolder>
+      </>
+    ) : (
+      <br />
+    );
+
   return (
     <div style={style}>
       <div style={{ backdropFilter: 'blur(10px)' }} className="w-100">
@@ -56,18 +85,9 @@ const MoviePage = () => {
           <div className="w-75 mx-auto">
             <p style={shadowTextStyle}>{movieDetails.overview}</p>
           </div>
-          <h3 className="ms-5 mt-4" style={shadowTextStyle}>
-            Cast
-          </h3>
-          <CardsHolder>
-            <Cast cast={credits.cast} />
-          </CardsHolder>
-          <h3 className="ms-5 mt-4" style={shadowTextStyle}>
-            Crew
-          </h3>
-          <CardsHolder>
-            <Crew crew={credits.crew} />
-          </CardsHolder>
+
+          {castJsx}
+          {crewJsx}
           <BtnBack />
         </div>
       </div>

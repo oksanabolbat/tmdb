@@ -22,6 +22,7 @@ const PersonMovieCard: React.FC<Props> = (props) => {
         data-bs-toggle="tooltip"
         data-bs-placement="top"
         title={about}
+        alt={about}
       />
 
       <div className="card-body">

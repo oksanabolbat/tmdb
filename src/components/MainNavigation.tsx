@@ -4,7 +4,7 @@ const MainNavigation = () => {
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
+        <div className="container container-fluid">
           <button
             className="navbar-toggler"
             type="button"
